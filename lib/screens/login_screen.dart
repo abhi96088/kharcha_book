@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:kharcha_book/auth_service.dart';
+import 'package:kharcha_book/screens/home_screen.dart';
+import 'package:kharcha_book/services/auth_service.dart';
 import 'package:kharcha_book/screens/signup_screen.dart';
-import '../my_colors.dart';
+import '../ui_helper.dart';
 import '../widgets/my_texfields.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -27,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: MyColors.bgColor,
+      backgroundColor: UiHelper.bgColor,
       body: SingleChildScrollView(
         child: Stack(
          alignment: Alignment.topCenter,
@@ -63,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Text(
                       "Login",
                       style: TextStyle(
-                          color: MyColors.primaryColor,
+                          color: UiHelper.primaryColor,
                           fontSize: 50,
                           fontFamily: "Lato-Bold"),
                     ),
@@ -77,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: emailController,
                         label: "Enter Email Id",
                         isPassword: false,
-                        prefix: Icon(Icons.email, color: MyColors.primaryColor,),
+                        prefix: Icon(Icons.email, color: UiHelper.primaryColor,),
                       )
                     ),
                     SizedBox(
@@ -90,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: passController,
                         label: "Enter Password",
                         isPassword: true,
-                        prefix: Icon(Icons.lock, color: MyColors.primaryColor,),
+                        prefix: Icon(Icons.lock, color: UiHelper.primaryColor,),
                       )
                     ),
                     SizedBox(
@@ -110,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Text(
                               "Forgot Password ?",
                               style: TextStyle(
-                                  color: MyColors.primaryColor, fontSize: 16),
+                                  color: UiHelper.primaryColor, fontSize: 16),
                             )),
                       ),
                     ),
@@ -123,15 +124,35 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: screenWidth * 0.9,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {
-                          final auth = AuthService();
-                          auth.logIn(
-                              emailController.text.toString(),
-                              passController.text.toString()
-                          );
+                        onPressed: () async{
+                          final auth = AuthService(); // instance of authServices class
+
+                          // check if fields are not empty
+                          if(emailController.text == "" || passController.text == "") {
+                            // show snack bar to inform user to enter email and password
+                            UiHelper().snackBar(
+                                context, "Please enter email and password !!",
+                                Colors.white, Colors.red);
+                          }else{
+                            // invoke login method
+                            Map<String, dynamic>? isLogin = await auth.logIn(
+                                emailController.text.toString(),
+                                passController.text.toString()
+                            );
+
+                            // check if login is successful
+                            if(isLogin != null){
+                              // navigate to home screen with user data
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen(userData: isLogin,)));
+                            }else{
+                              // show snack bar to inform user about failure
+                              UiHelper().snackBar(context, "Something Went Wrong ! Try Again...", Colors.white, Colors.red);
+                            }
+
+                          }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: MyColors.primaryColor,
+                          backgroundColor: UiHelper.primaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)
                           )
@@ -157,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: Text(
                         "SignUp",
-                        style: TextStyle(fontSize: 22, color: MyColors.primaryColor),))
+                        style: TextStyle(fontSize: 22, color: UiHelper.primaryColor),))
                   ],
                 ),
               ),
@@ -171,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: MyColors.primaryColor, width: 3),
+                  border: Border.all(color: UiHelper.primaryColor, width: 3),
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(

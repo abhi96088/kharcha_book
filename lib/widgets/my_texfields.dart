@@ -1,13 +1,14 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import '../my_colors.dart';
+import '../ui_helper.dart';
 
 class MyTextField extends StatefulWidget {
 
   final String label;
   final bool? isUnderlined;
   final bool isPassword;
+  final bool isFilled;
   final Icon? prefix;
   final Color? enabledColor;
   final Color? focusedColor;
@@ -19,6 +20,7 @@ class MyTextField extends StatefulWidget {
     required this.label,
     required this.controller,
     required this.isPassword,
+    this.isFilled = false,
     this.isUnderlined,
     this.prefix,
     this.enabledColor,
@@ -32,7 +34,7 @@ class MyTextField extends StatefulWidget {
 
 class _MyTextFieldState extends State<MyTextField> {
 
-  // variable to handle the password obsecure
+  // variable to handle the password obscure
   bool isShowing = false;
 
   @override
@@ -41,17 +43,19 @@ class _MyTextFieldState extends State<MyTextField> {
       obscureText: isShowing,
       controller: widget.controller,
       decoration: InputDecoration(
+          filled: widget.isFilled,
+          fillColor: UiHelper.grey,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius ?? 15.0),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius ?? 15.0),
-            borderSide: BorderSide(color: widget.enabledColor ?? MyColors.primaryColor),
+            borderSide: BorderSide(color: widget.enabledColor ?? UiHelper.primaryColor),
           ),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(widget.borderRadius ?? 15.0),
               borderSide:
-              BorderSide(color: widget.focusedColor ?? MyColors.secondaryColor)),
+              BorderSide(color: widget.focusedColor ?? UiHelper.secondaryColor)),
           label: Text(widget.label),
           prefixIcon: widget.prefix,
           suffixIcon: widget.isPassword == true ? IconButton(

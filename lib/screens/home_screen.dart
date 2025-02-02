@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kharcha_book/my_colors.dart';
+import 'package:kharcha_book/ui_helper.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final Map<String, dynamic>? userData;
+  const HomeScreen({super.key, this.userData});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(Icons.person),
             ),
           ),
-          title: Text("Abhimanyu"),
+          title: Text(widget.userData?['name'] ?? 'User'),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -32,8 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: screenHeight * 0.15,
                 child: Card(
                   elevation: 4,
-                  shadowColor: MyColors.secondaryColor,
-                  color: MyColors.primaryColor,
+                  shadowColor: UiHelper.secondaryColor,
+                  color: UiHelper.primaryColor,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -61,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Align(
                 alignment: Alignment.centerLeft,
-                  child: Text("JANUARY", style: TextStyle(color: MyColors.secondaryColor, fontSize: 28, fontFamily: "Roboto-Semibold"),),
+                  child: Text("JANUARY", style: TextStyle(color: UiHelper.secondaryColor, fontSize: 28, fontFamily: "Roboto-Semibold"),),
 
               ),
               Divider(color: Colors.black,),
@@ -73,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         CircleAvatar(
                           minRadius: 30,
-                          backgroundColor: MyColors.primaryColor,
+                          backgroundColor: UiHelper.primaryColor,
                           child: Text("15", style: TextStyle(color: Colors.white, fontSize: 25, fontFamily: "Roboto-SemiBold", fontWeight: FontWeight.bold),),
                         ),
                         SizedBox(width: 15,),

@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../auth_service.dart';
-import '../my_colors.dart';
+import '../services/auth_service.dart';
+import '../ui_helper.dart';
 import '../widgets/my_texfields.dart';
-import '../widgets/my_texts.dart';
 import 'login_screen.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -17,6 +16,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   // text editing controller to handle input fields
   TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
   @override
@@ -62,12 +62,25 @@ class _SignupScreenState extends State<SignupScreen> {
                         Text(
                           "Signup",
                           style: TextStyle(
-                              color: MyColors.primaryColor,
+                              color: UiHelper.primaryColor,
                               fontSize: 50,
                               fontFamily: "Lato-Bold"),
                         ),
                         SizedBox(
                           height: 25,
+                        ),
+                        /////////////// name field ///////////////
+                        SizedBox(
+                            width: screenWidth * 0.9,
+                            child: MyTextField(
+                              controller: nameController,
+                              label: "Enter Your Name",
+                              isPassword: false,
+                              prefix: Icon(Icons.person, color: UiHelper.primaryColor,),
+                            )
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         /////////////// email field ///////////////
                         SizedBox(
@@ -76,7 +89,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               controller: emailController,
                               label: "Enter Email Id",
                               isPassword: false,
-                              prefix: Icon(Icons.email, color: MyColors.primaryColor,),
+                              prefix: Icon(Icons.email, color: UiHelper.primaryColor,),
                             )
                         ),
                         SizedBox(
@@ -89,7 +102,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               controller: passController,
                               label: "Enter Password",
                               isPassword: true,
-                              prefix: Icon(Icons.lock, color: MyColors.primaryColor,),
+                              prefix: Icon(Icons.lock, color: UiHelper.primaryColor,),
                             )
                         ),
                         SizedBox(
@@ -102,31 +115,23 @@ class _SignupScreenState extends State<SignupScreen> {
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () async{
+
                               final auth = AuthService(); // create instance of AuthServices
                               // call the signup method, passing text from email and password field
-                              User? isCreated = await auth.signUp(emailController.text.toString(), passController.text.toString());
+                              User? isCreated = await auth.signUp(emailController.text.toString(), passController.text.toString(), nameController.text.toString());
 
                               if(isCreated == null) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: MyTexts().errorText(16),
-                                      backgroundColor: MyColors.primaryColor,));
+                                // show snack bar to inform user about failure
+                                UiHelper().snackBar(context, "Something went wrong! Try again...", Colors.white, Colors.red);
                               }else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(
-                                        "Account Created Successfully !",
-                                        style: TextStyle(color: Colors.white,
-                                            backgroundColor: MyColors
-                                                .secondaryColor)
-                                      ),
-                                    )
-                                );
-
+                                // show snack bar to inform user about successful account creation
+                                UiHelper().snackBar(context, "Account Created Successfully !", Colors.white, UiHelper.secondaryColor);
                                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
 
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: MyColors.primaryColor,
+                                backgroundColor: UiHelper.primaryColor,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)
                                 )
@@ -152,7 +157,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             },
                             child: Text(
                               "Login",
-                              style: TextStyle(fontSize: 22, color: MyColors.primaryColor),))
+                              style: TextStyle(fontSize: 22, color: UiHelper.primaryColor),))
                       ],
                     ),
                   ),
@@ -166,7 +171,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: MyColors.primaryColor, width: 3),
+                      border: Border.all(color: UiHelper.primaryColor, width: 3),
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
