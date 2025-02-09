@@ -104,9 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.centerLeft,
                         child: TextButton(
                             onPressed: () {
-                              //////////////////////////////////////////////////////
-                              ///=====> handle the forget password actions <=====///
-                              /////////////////////////////////////////////////////
+                              AuthService().forgetPassword(emailController.text.toString());
                             },
                             child: Text(
                               "Forgot Password ?",

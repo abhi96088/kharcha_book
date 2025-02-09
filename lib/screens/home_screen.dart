@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kharcha_book/screens/add_expense_screen.dart';
 import 'package:kharcha_book/ui_helper.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -91,7 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: (){},
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AddExpenseScreen()));
+        },
         backgroundColor: Colors.deepOrange,
         label: Text("Add Expense", style: TextStyle(color: Colors.white, fontFamily: "Roboto-SemiBold", fontSize: 16),),
         icon: Icon(Icons.add, color: Colors.white,size: 28,),

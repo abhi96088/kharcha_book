@@ -69,6 +69,18 @@ class AuthService {
 
   }
 
+  /// -------------------->  function to handle forget password <--------------------///
+  Future<String?> forgetPassword(String email) async{
+    try{
+      _auth.sendPasswordResetEmail(email: email);
+        return "Email Sent Successfully";
+      return null;
+    }catch(e){
+      print(e.toString());
+      return null;
+    }
+  }
+
   /// -------------------->  function to handle logout <--------------------///
   Future<void> logOut() async{
     // call firebase's signOut method to logout the user from their session
