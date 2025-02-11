@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:kharcha_book/services/database_services.dart';
 
 class AuthService {
 
@@ -19,12 +20,9 @@ class AuthService {
 
       User? user  = userCredential.user;  // instance of user
 
-      // store name on firebase
+      // store name, email and create a expense table  on firebase
       if(user != null){
-        await fireStore.collection('users').doc(user.uid).set({
-          'name' : name,
-          'email' : email
-        });
+        DatabaseServices().createUser(name, email, user.uid);
       }
 
       // return the user object from the UserCredential.
@@ -70,7 +68,7 @@ class AuthService {
   }
 
   /// -------------------->  function to handle forget password <--------------------///
-  Future<String?> forgetPassword(String email) async{
+  Future<String?> resetPassword(String email) async{
     try{
       _auth.sendPasswordResetEmail(email: email);
         return "Email Sent Successfully";
@@ -79,6 +77,16 @@ class AuthService {
       print(e.toString());
       return null;
     }
+  }
+
+  /// -------------------->  function to check if user exist <--------------------///
+  Future<bool> isUserExist(String email) async{
+    QuerySnapshot querySnap = await fireStore.collection('users').where('email', isEqualTo: email).get();
+
+    if(querySnap.docs.isNotEmpty){
+      return true;
+    }
+    return false;
   }
 
   /// -------------------->  function to handle logout <--------------------///

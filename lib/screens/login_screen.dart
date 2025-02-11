@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:kharcha_book/screens/forget_password_screen.dart';
 import 'package:kharcha_book/screens/home_screen.dart';
 import 'package:kharcha_book/services/auth_service.dart';
 import 'package:kharcha_book/screens/signup_screen.dart';
@@ -104,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.centerLeft,
                         child: TextButton(
                             onPressed: () {
-                              AuthService().forgetPassword(emailController.text.toString());
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPasswordScreen()));
                             },
                             child: Text(
                               "Forgot Password ?",
