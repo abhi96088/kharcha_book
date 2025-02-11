@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kharcha_book/screens/expense_details_screen.dart';
+import 'package:kharcha_book/services/database_services.dart';
 import 'package:kharcha_book/ui_helper.dart';
 
 class AddExpenseScreen extends StatefulWidget {
@@ -14,14 +16,17 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   TextEditingController dateController = TextEditingController();
   TextEditingController totalController = TextEditingController();
 
+  String _formatDate(DateTime date) {
+    return "${date.day.toString().padLeft(2, '0')}-${date.month.toString().padLeft(2, '0')}-${date.year}";
+  }
+
   DateTime initialDate = DateTime.now();  // hold initial date as current date
 
   // set initial date in  text field
   @override
   void initState() {
     super.initState();
-    dateController.text =
-        "${initialDate.day}/${initialDate.month}/${initialDate.year}";
+    dateController.text = _formatDate(initialDate);
   }
 
   // function to show date picker
@@ -34,7 +39,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
 
     if (picked != null) {
       setState(() {
-        dateController.text = "${picked.day}/${picked.month}/${picked.year}";
+        dateController.text = _formatDate(picked);
       });
     }
   }
@@ -131,7 +136,10 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () async{
+          await DatabaseServices().createDateExpense('JOeVl5MOdtQLfGkGLXcqg0FVRVO2', dateController.text.toString());
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseDetailsScreen(date: dateController.text.toString(),)));
+        },
         backgroundColor: UiHelper.primaryColor,
         label: Text("Add Expense", style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "Roboto-Semibold"),),
       ),

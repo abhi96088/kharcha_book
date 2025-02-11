@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:kharcha_book/services/auth_service.dart';
+import 'package:kharcha_book/services/database_services.dart';
 import 'package:kharcha_book/ui_helper.dart';
 import 'package:kharcha_book/widgets/my_texfields.dart';
 
 class ExpenseDetailsScreen extends StatefulWidget {
-  const ExpenseDetailsScreen({super.key});
+
+  final String date;
+  const ExpenseDetailsScreen({super.key, required this.date});
 
   @override
   State<ExpenseDetailsScreen> createState() => _ExpenseDetailsScreenState();
@@ -17,29 +19,28 @@ class _ExpenseDetailsScreenState extends State<ExpenseDetailsScreen> {
   TextEditingController detailController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
 
-  final _fireStore = FirebaseFirestore.instance;
-  List<String> _categoryList = [];
+  // final _fireStore = FirebaseFirestore.instance;
+  final List<String> _categoryList = ["Grocery", "Sports", "Stationary", "Rent", "Pary", "Others"];
 
-  @override
-  void initState(){
+  /*@override
+  void initState() {
     super.initState();
     _fetchCategory();
   }
-
-  Future<void> _fetchCategory() async{
-    DocumentSnapshot docSnap = await _fireStore.collection("category").doc("rnqELX5qYrt43rKvhZEi").get();
-
-    if(docSnap.exists){
-      Map<String, dynamic> _data = docSnap.data() as  Map<String, dynamic>;
+*/
+  /*Future<void> _fetchCategory() async {
+    QuerySnapshot querySnapshot = await _fireStore
+        .collection("category")
+        .get();
 
       setState(() {
-        _categoryList = _data.values.map((values) => values.toString()).toList();
+        _categoryList =
+            querySnapshot.docs.map((doc) => doc["name"].toString()).toList();
       });
 
-    }else{
-      print("Document does not exist");
-    }
-  }
+      print("helloooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,18 +88,30 @@ class _ExpenseDetailsScreenState extends State<ExpenseDetailsScreen> {
                     showDialog(
                         context: context,
                         builder: (context) => Dialog(
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: _categoryList.length,
-                                itemBuilder: (BuildContext, index) {
-                                  return ListTile(
-                                    horizontalTitleGap: 80,contentPadding: EdgeInsets.symmetric(horizontal: 40),
-                                    leading: Text("${index + 1}", style: TextStyle(fontSize: 18),),
-                                    title: Text(_categoryList[index]),
-                                  );
-                                },
-                              ),
-                            ));
+                           child: ListView.builder(
+                             shrinkWrap: true,
+                             itemCount: _categoryList.length,
+                             itemBuilder: (context, index) {
+                               return ListTile(
+                                 horizontalTitleGap: 80,
+                                 contentPadding:
+                                 EdgeInsets.symmetric(horizontal: 40),
+                                 leading: Text(
+                                   "${index + 1}",
+                                   style: TextStyle(fontSize: 18),
+                                 ),
+                                 title: Text(_categoryList[index]),
+                                 onTap: () {
+                                   setState(() {
+                                     categoryController.text =
+                                     _categoryList[index];
+                                   });
+                                   Navigator.pop(context);
+                                 },
+                               );
+                             }
+                           )
+                        ));
                   }),
               SizedBox(
                 height: 50,
@@ -107,7 +120,25 @@ class _ExpenseDetailsScreenState extends State<ExpenseDetailsScreen> {
                 height: 50,
                 width: double.infinity,
                 child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async{
+                      if(amountController.text.isNotEmpty && detailController.text.isNotEmpty && categoryController.text.isNotEmpty){
+                        await DatabaseServices().createUnitExpense(
+                            "JOeVl5MOdtQLfGkGLXcqg0FVRVO2",
+                            widget.date,
+                            amountController.text.toString(),
+                            detailController.text.toString(),
+                            categoryController.text.toString()
+                        );
+                        Navigator.pop(context);
+                      }else{
+                        UiHelper().snackBar(
+                            context,
+                            "Enter All Field",
+                            Colors.white,
+                            Colors.red
+                        );
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: UiHelper.primaryColor,
                         shape: RoundedRectangleBorder(

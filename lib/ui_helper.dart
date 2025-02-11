@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -12,10 +13,10 @@ class UiHelper{
 
   void snackBar (BuildContext context, String text, Color color, Color bgColor){
     ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(
+        SnackBar(content: AutoSizeText(
           text,
-          style: TextStyle(color: color, fontSize: 18, fontFamily: "Roboto-Semibold"
-          ),),
+          style: TextStyle(color: color, fontSize: 18, fontFamily: "Roboto-Semibold",
+          ),maxLines: 1,),
           backgroundColor: bgColor,
         ),
     );
