@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kharcha_book/screens/add_expense_screen.dart';
+import 'package:kharcha_book/services/auth_service.dart';
 import 'package:kharcha_book/ui_helper.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,6 +14,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  late Widget totalSum;
+
+  String getMonth = DateFormat('MM-yyyy').format(DateTime.now());
+  String uid = "JOeVl5MOdtQLfGkGLXcqg0FVRVO2";
+
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -46,14 +57,36 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 22,
                             fontFamily: "Roboto-Semibold"),
                       ),
-                      Text(
-                        " 4568₹",
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 40,
-                            fontFamily: "Lato-Bold",
-                            fontWeight: FontWeight.bold),
-                      )
+                      StreamBuilder(stream: FirebaseFirestore.instance.collection('expenses').doc(uid).snapshots(),
+                          builder: (context, snapshot){
+                            if(!snapshot.hasData || !snapshot.data!.exists){
+                              return Text("0₹", style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 40,
+                                  fontFamily: "Lato-Bold",
+                                  fontWeight: FontWeight.bold),);
+                            }
+
+                            var data = snapshot.data!.data() as Map<String, dynamic>;
+
+                            int totalSum = 0;
+
+                            data.forEach((date, expenseList){
+                              if(date.contains(getMonth) && expenseList is List){
+                                for(var expense in expenseList){
+                                  if(expense is Map<String, dynamic> && expense.containsKey('amt')){
+                                    totalSum += int.tryParse(expense['amt'].toString()) ?? 0;
+                                  }
+                                }
+                              }
+                            });
+                            return Text("$totalSum₹", style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 40,
+                                fontFamily: "Lato-Bold",
+                                fontWeight: FontWeight.bold),
+                            );
+                          })
                     ],
                   ),
                 ),
