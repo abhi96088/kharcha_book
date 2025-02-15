@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kharcha_book/screens/expense_details_screen.dart';
 import 'package:kharcha_book/services/database_services.dart';
@@ -44,11 +45,14 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     }
   }
 
+  String uid = "JOeVl5MOdtQLfGkGLXcqg0FVRVO2";
+
   @override
   Widget build(BuildContext context) {
 
     // height and width of device
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Padding(
@@ -113,14 +117,56 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                 SizedBox(
                   width: screenWidth * 0.4,
                   height: 47,
-                  child: TextField(
-                    controller: totalController,
-                    readOnly: true,
-                    decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.red, width: 2.5))),
-                  ),
+                  child: StreamBuilder(
+                      stream: FirebaseFirestore.instance.collection('expenses').doc(uid).snapshots(),
+                      builder: (context, snapshot){
+                        if(!snapshot.hasData || !snapshot.data!.exists){
+                          totalController.text = "0₹";
+                          return TextField(
+                            controller: totalController,
+                            readOnly: true,
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                    BorderSide(color: Colors.red, width: 2.5),
+                                ),
+                            ),
+                            style: TextStyle(fontSize: 35, color: Colors.red, fontFamily: "Roboto-Semibold"),
+                          );
+                        }
+
+                        var data = snapshot.data!.data() as Map<String, dynamic>;
+
+                        List<Map<String, dynamic>> expenseArray = [];
+
+                        data.forEach((date, expenseList){
+                          if(date.contains(dateController.text.toString()) && expenseList is List){
+                            int total = 0;
+
+                            for(var expense in expenseList){
+                              if(expense is Map<String, dynamic> && expense.containsKey('amt')){
+                                total += int.tryParse(expense['amt'].toString()) ?? 0;
+                              }
+                            }
+                            totalController.text = total.toString();
+                          }
+                        });
+                        return TextField(
+                          controller: totalController,
+                          readOnly: true,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide:
+                                  BorderSide(color: Colors.red, width: 2.5),
+                              )
+                          ),
+                          style: TextStyle(fontSize: 35, color: Colors.red, fontFamily: "Roboto-Semibold"),
+                        );
+                      }
+                  )
+
                 ),
                 Spacer()
               ],
@@ -131,6 +177,62 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             Divider(
               thickness: 2,
               color: UiHelper.secondaryColor,
+            ),
+            SizedBox(
+              height: screenHeight * 0.7,
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance.collection('expenses').doc(uid).snapshots(),
+                  builder: (context, snapshot){
+                    if(!snapshot.hasData || !snapshot.data!.exists){
+                      return  Center(
+                          child: Text(
+                            "No Expense Found",
+                            style: TextStyle(
+                                color: UiHelper.grey,
+                                fontSize: 28,
+                                fontFamily: "Roboto-Semibold"),
+                          ));
+                    }
+
+                    var data = snapshot.data!.data() as Map<String, dynamic>;
+                    List<Map<String, dynamic>> expenseArray = [];
+
+                    data.forEach((date, expenseList){
+                      if(date.contains(dateController.text.toString()) && expenseList is List){
+                        expenseArray = expenseList.map((e) => e as Map<String, dynamic>).toList();
+                      }
+                    });
+
+                    return expenseArray.isEmpty
+                        ? Column(
+                          children: [
+                            SizedBox(height: 200,),
+                            Text(
+                              "No Expense Found",
+                              style: TextStyle(
+                                  color: UiHelper.grey,
+                                  fontSize: 28,
+                                  fontFamily: "Roboto-Semibold"),
+                            ),
+                          ],
+                        ) :
+                    ListView.builder(
+                      itemCount: expenseArray.length,
+                      itemBuilder: (context, index){
+                        String title = expenseArray[index]['detail'];
+                        String subtitle = expenseArray[index]['cat'];
+                        String amount = expenseArray[index]['amt'];
+
+                        return ListTile(
+                          leading: Text("${index + 1}.", style: TextStyle(fontSize: 28),),
+                          title: Text(title, style: TextStyle(fontSize: 22),),
+                          subtitle: Text(subtitle),
+                          trailing: Text("$amount₹", style: TextStyle(color: Colors.red, fontSize: 22),),
+                        );
+                      }
+                    );
+                  }
+              ),
             )
           ],
         ),

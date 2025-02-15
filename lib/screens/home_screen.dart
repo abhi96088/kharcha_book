@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       List<Map<String, dynamic>> expenseArray = [];
 
                       data.forEach((date, expenseList) {
-                        if (date.contains('$getMonth') && expenseList is List) {
+                        if (date.contains(getMonth) && expenseList is List) {
                           int dailyTotal = 0;
 
                           for (var expense in expenseList) {
