@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:kharcha_book/screens/forget_password_screen.dart';
+import 'package:kharcha_book/login-signup/signup_screen.dart';
 import 'package:kharcha_book/screens/home_screen.dart';
 import 'package:kharcha_book/services/auth_service.dart';
-import 'package:kharcha_book/screens/signup_screen.dart';
 import '../ui_helper.dart';
 import '../widgets/my_texfields.dart';
+import 'forget_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

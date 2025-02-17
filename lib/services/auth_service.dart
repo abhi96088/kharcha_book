@@ -5,7 +5,7 @@ import 'package:kharcha_book/services/database_services.dart';
 class AuthService {
 
   // create an instance for firebaseAuth. provide access to firebase's authentication methods
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
   /// -------------------->  function to handle signup <--------------------///
@@ -13,7 +13,7 @@ class AuthService {
 
     try{
       // call firebase's method to create a user. returns a UserCredential object upon successful account creation
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email,
           password: password
       );
@@ -40,7 +40,7 @@ class AuthService {
 
     try{
       // call firebase's method to sign in the user. returns UserCredential object upon successful login
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email,
           password: password
       );
@@ -70,7 +70,7 @@ class AuthService {
   /// -------------------->  function to handle forget password <--------------------///
   Future<String?> resetPassword(String email) async{
     try{
-      _auth.sendPasswordResetEmail(email: email);
+      auth.sendPasswordResetEmail(email: email);
         return "Email Sent Successfully";
       return null;
     }catch(e){
@@ -92,7 +92,7 @@ class AuthService {
   /// -------------------->  function to handle logout <--------------------///
   Future<void> logOut() async{
     // call firebase's signOut method to logout the user from their session
-    await _auth.signOut();
+    await auth.signOut();
   }
 
 }

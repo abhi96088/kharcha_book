@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kharcha_book/screens/add_expense_screen.dart';
+import 'package:kharcha_book/screens/show_expense_screen.dart';
+import 'package:kharcha_book/screens/detailed_expense_view_screen.dart';
 import 'package:kharcha_book/services/auth_service.dart';
 import 'package:kharcha_book/ui_helper.dart';
 
@@ -18,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String getMonth = DateFormat('MM-yyyy').format(DateTime.now());
   String getMonthName = DateFormat('MMMM').format(DateTime.now());
-  String uid = "JOeVl5MOdtQLfGkGLXcqg0FVRVO2";
+  String uid = AuthService().auth.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) {
@@ -40,65 +41,70 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             SizedBox(
               height: screenHeight * 0.15,
-              child: Card(
-                elevation: 4,
-                shadowColor: UiHelper.secondaryColor,
-                color: UiHelper.primaryColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Total of this month : ",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontFamily: "Roboto-Semibold"),
-                    ),
-                    StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection('expenses')
-                            .doc(uid)
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData || !snapshot.data!.exists) {
+              child: InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => DetailedExpenseViewScreen(uid: uid,)));
+                },
+                child: Card(
+                  elevation: 4,
+                  shadowColor: UiHelper.secondaryColor,
+                  color: UiHelper.primaryColor,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Total of this month : ",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontFamily: "Roboto-Semibold"),
+                      ),
+                      StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('expenses')
+                              .doc(uid)
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData || !snapshot.data!.exists) {
+                              return Text(
+                                "0₹",
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 40,
+                                    fontFamily: "Lato-Bold",
+                                    fontWeight: FontWeight.bold),
+                              );
+                            }
+
+                            var data =
+                                snapshot.data!.data() as Map<String, dynamic>;
+
+                            int totalSum = 0;
+
+                            data.forEach((date, expenseList) {
+                              if (date.contains(getMonth) &&
+                                  expenseList is List) {
+                                for (var expense in expenseList) {
+                                  if (expense is Map<String, dynamic> &&
+                                      expense.containsKey('amt')) {
+                                    totalSum +=
+                                        int.tryParse(expense['amt'].toString()) ??
+                                            0;
+                                  }
+                                }
+                              }
+                            });
                             return Text(
-                              "0₹",
+                              "$totalSum₹",
                               style: TextStyle(
                                   color: Colors.red,
                                   fontSize: 40,
                                   fontFamily: "Lato-Bold",
                                   fontWeight: FontWeight.bold),
                             );
-                          }
-
-                          var data =
-                              snapshot.data!.data() as Map<String, dynamic>;
-
-                          int totalSum = 0;
-
-                          data.forEach((date, expenseList) {
-                            if (date.contains(getMonth) &&
-                                expenseList is List) {
-                              for (var expense in expenseList) {
-                                if (expense is Map<String, dynamic> &&
-                                    expense.containsKey('amt')) {
-                                  totalSum +=
-                                      int.tryParse(expense['amt'].toString()) ??
-                                          0;
-                                }
-                              }
-                            }
-                          });
-                          return Text(
-                            "$totalSum₹",
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 40,
-                                fontFamily: "Lato-Bold",
-                                fontWeight: FontWeight.bold),
-                          );
-                        })
-                  ],
+                          })
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -171,52 +177,60 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             )
                           : ListView.builder(
+
                               itemCount: expenseArray.length,
                               itemBuilder: (context, index){
+
                                 String date = expenseArray[index]['date'];
                                 int total = expenseArray[index]['total'];
                                 String day = date.split('-')[0];
-                                return Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        CircleAvatar(
-                                          minRadius: 30,
-                                          backgroundColor:
-                                          UiHelper.primaryColor,
-                                          child: Text(
-                                            day,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 25,
-                                                fontFamily: "Roboto-SemiBold",
-                                                fontWeight: FontWeight.bold),
+
+                                return InkWell(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ShowExpenseScreen(uid: uid,)));
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          CircleAvatar(
+                                            minRadius: 30,
+                                            backgroundColor:
+                                            UiHelper.primaryColor,
+                                            child: Text(
+                                              day,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 25,
+                                                  fontFamily: "Roboto-SemiBold",
+                                                  fontWeight: FontWeight.bold),
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: 15,
-                                        ),
-                                        Text(
-                                          "Total Expense: ",
-                                          style: TextStyle(
-                                              fontSize: 25,
-                                              fontFamily: "Roboto-SemiBold"),
-                                        ),
-                                        Spacer(),
-                                        Text(
-                                          "$total₹",
-                                          style: TextStyle(
-                                              color: Colors.red,
-                                              fontSize: 30,
-                                              fontFamily: "Roboto-SemiBold"),
-                                        ),
-                                        SizedBox(
-                                          width: 15,
-                                        )
-                                      ],
-                                    ),
-                                    Divider()
-                                  ],
+                                          SizedBox(
+                                            width: 15,
+                                          ),
+                                          Text(
+                                            "Total Expense: ",
+                                            style: TextStyle(
+                                                fontSize: 25,
+                                                fontFamily: "Roboto-SemiBold"),
+                                          ),
+                                          Spacer(),
+                                          Text(
+                                            "$total₹",
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 30,
+                                                fontFamily: "Roboto-SemiBold"),
+                                          ),
+                                          SizedBox(
+                                            width: 15,
+                                          )
+                                        ],
+                                      ),
+                                      Divider()
+                                    ],
+                                  ),
                                 );
                               });
                     }))
@@ -226,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddExpenseScreen()));
+              MaterialPageRoute(builder: (context) => ShowExpenseScreen(uid: uid,)));
         },
         backgroundColor: Colors.deepOrange,
         label: Text(

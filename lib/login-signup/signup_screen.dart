@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../ui_helper.dart';
 import '../widgets/my_texfields.dart';
-import 'login_screen.dart';
+import '../login-signup/login_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});

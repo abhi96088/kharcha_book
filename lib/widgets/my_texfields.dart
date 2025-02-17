@@ -42,8 +42,15 @@ class MyTextField extends StatefulWidget {
 }
 
 class _MyTextFieldState extends State<MyTextField> {
+
   // variable to handle the password obscure
-  bool isShowing = false;
+  late bool isShowing;
+
+  @override
+  void initState() {
+    super.initState();
+    isShowing = widget.isPassword;  // show text inside field if it is not a password field
+  }
 
   @override
   Widget build(BuildContext context) {

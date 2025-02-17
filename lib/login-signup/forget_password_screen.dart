@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kharcha_book/screens/signup_screen.dart';
+import 'package:kharcha_book/login-signup/signup_screen.dart';
 import 'package:kharcha_book/services/auth_service.dart';
 import 'package:kharcha_book/ui_helper.dart';
 import 'package:kharcha_book/widgets/my_texfields.dart';

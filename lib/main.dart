@@ -1,13 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:kharcha_book/screens/add_expense_screen.dart';
+import 'package:kharcha_book/login-signup/splash_screen.dart';
+import 'package:kharcha_book/screens/show_expense_screen.dart';
 import 'package:kharcha_book/screens/detailed_expense_view_screen.dart';
-import 'package:kharcha_book/screens/expense_details_screen.dart';
-import 'package:kharcha_book/screens/forget_password_screen.dart';
+import 'package:kharcha_book/screens/add_expense_screen.dart';
 import 'package:kharcha_book/screens/home_screen.dart';
-import 'package:kharcha_book/screens/login_screen.dart';
-import 'package:kharcha_book/screens/signup_screen.dart';
-import 'package:kharcha_book/screens/splash_screen.dart';
+import 'package:kharcha_book/login-signup/login_screen.dart';
+
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }
