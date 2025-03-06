@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:kharcha_book/login-signup/signup_screen.dart';
 import 'package:kharcha_book/screens/home_screen.dart';
 import 'package:kharcha_book/services/auth_service.dart';
+import 'package:kharcha_book/widgets/custom_texts.dart';
 import '../ui_helper.dart';
 import '../widgets/my_texfields.dart';
 import 'forget_password_screen.dart';
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Stack(
          alignment: Alignment.topCenter,
          children: [
-          // login form card
+          /// ``````````````````````` login form card ````````````````````````///
           Column(
             children: [
               SizedBox(
@@ -55,139 +55,136 @@ class _LoginScreenState extends State<LoginScreen> {
                         offset: Offset(0, 2),
                       )
                     ]),
-                ///------------ Start of the form field -------------///
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 120,
-                    ),
-                    Text(
-                      "Login",
-                      style: TextStyle(
-                          color: UiHelper.primaryColor,
-                          fontSize: 50,
-                          fontFamily: "Lato-Bold"),
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    /////////////// email field ///////////////
-                    SizedBox(
-                      width: screenWidth * 0.9,
-                      child: MyTextField(
-                        controller: emailController,
-                        label: "Enter Email Id",
-                        isPassword: false,
-                        prefix: Icon(Icons.email, color: UiHelper.primaryColor,),
-                      )
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    /////////////// password field /////////////////
-                    SizedBox(
-                      width: screenWidth * 0.9,
-                      child: MyTextField(
-                        controller: passController,
-                        label: "Enter Password",
-                        isPassword: true,
-                        prefix: Icon(Icons.lock, color: UiHelper.primaryColor,),
-                      )
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    // -------- forget password text -------- //
-                    SizedBox(
-                      width: screenWidth * 0.9,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: TextButton(
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPasswordScreen()));
-                            },
-                            child: Text(
-                              "Forgot Password ?",
-                              style: TextStyle(
-                                  color: UiHelper.primaryColor, fontSize: 16),
-                            )),
+                ///--------------------- Start of the form field ----------------------///
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: screenHeight * 0.15,
                       ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-
-                    ///::::::::::::::::::::::::::::::: login button code ::::::::::::::::::::::::::::::::::::::::::::::::///
-                    SizedBox(
-                      width: screenWidth * 0.9,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () async{
-                          final auth = AuthService(); // instance of authServices class
-
-                          // check if fields are not empty
-                          if(emailController.text == "" || passController.text == "") {
-                            // show snack bar to inform user to enter email and password
-                            UiHelper().snackBar(
-                                context, "Please enter email and password !!",
-                                Colors.white, Colors.red);
-                          }else{
-                            // invoke login method
-                            Map<String, dynamic>? isLogin = await auth.logIn(
-                                emailController.text.toString(),
-                                passController.text.toString()
-                            );
-
-                            // check if login is successful
-                            if(isLogin != null){
-                              // navigate to home screen with user data
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen(userData: isLogin,)));
+                      CustomTexts.h1(text: "Login"),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      ///////////////////////// email field /////////////////////////
+                      SizedBox(
+                        width: screenWidth * 0.9,
+                        child: MyTextField(
+                          controller: emailController,
+                          label: "Enter Email Id",
+                          isPassword: false,
+                          prefix: Icon(Icons.email, color: UiHelper.primaryColor,),
+                        )
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      ///////////////////////// password field ///////////////////////////
+                      SizedBox(
+                        width: screenWidth * 0.9,
+                        child: MyTextField(
+                          controller: passController,
+                          label: "Enter Password",
+                          isPassword: true,
+                          prefix: Icon(Icons.lock, color: UiHelper.primaryColor,),
+                        )
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      // ------------------ forget password text ------------------ //
+                      SizedBox(
+                        width: screenWidth * 0.9,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPasswordScreen()));
+                              },
+                              child: Text(
+                                "Forgot Password ?",
+                                style: TextStyle(
+                                    color: UiHelper.primaryColor, fontSize: 16),
+                              )),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                  
+                      ///::::::::::::::::::::::::::::::: login button code ::::::::::::::::::::::::::::::::::::::::::::::::///
+                      SizedBox(
+                        width: screenWidth * 0.9,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () async{
+                            final auth = AuthService(); // instance of authServices class
+                  
+                            // check if fields are not empty
+                            if(emailController.text == "" || passController.text == "") {
+                              // show snack bar to inform user to enter email and password
+                              UiHelper().snackBar(
+                                  context, "Please enter email and password !!",
+                                  Colors.white, Colors.red);
                             }else{
-                              // show snack bar to inform user about failure
-                              UiHelper().snackBar(context, "Something Went Wrong ! Try Again...", Colors.white, Colors.red);
+                              // invoke login method
+                              Map<String, dynamic>? isLogin = await auth.logIn(
+                                  emailController.text.toString(),
+                                  passController.text.toString()
+                              );
+                  
+                              // check if login is successful
+                              if(isLogin != null){
+                                // navigate to home screen with user data
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                              }else{
+                                // show snack bar to inform user about failure
+                                UiHelper().snackBar(context, "Something Went Wrong ! Try Again...", Colors.white, Colors.red);
+                              }
+                  
                             }
-
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: UiHelper.primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)
-                          )
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.lock, color: Colors.white,size: 22,),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text("Login",
-                                style: TextStyle(color: Colors.white, fontSize: 22, fontFamily: "Roboto-SemiBold")),
-                          ],
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: UiHelper.primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)
+                            )
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.lock, color: Colors.white,size: 22,),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text("Login",
+                                  style: TextStyle(color: Colors.white, fontSize: 22, fontFamily: "Roboto-SemiBold")),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 10,),
-                    Text("Don't have an account ?", style: TextStyle(fontSize: 16),),
-                    TextButton(
-                      onPressed: (){
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignupScreen()));
-                      },
-                      child: Text(
-                        "SignUp",
-                        style: TextStyle(fontSize: 22, color: UiHelper.primaryColor),))
-                  ],
+                      SizedBox(height: 10,),
+                      Text("Don't have an account ?", style: TextStyle(fontSize: 16),),
+                      TextButton(
+                        onPressed: (){
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignupScreen()));
+                        },
+                        child: Text(
+                          "SignUp",
+                          style: TextStyle(fontSize: 22, color: UiHelper.primaryColor),))
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
+          ///~~~~~~~~~~~~~~~~~~~~~ logo of application visible on top ~~~~~~~~~~~~~~~~~~~~~~~~~~///
           Positioned(
-            top: 100,
+            top: screenHeight * 0.1,
             child: Container(
-              height: 200,
-              width: 200,
+              height: screenHeight * 0.25,
+              width: screenWidth * 0.5,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,

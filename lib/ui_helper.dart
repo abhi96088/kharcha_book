@@ -11,6 +11,7 @@ class UiHelper{
   static Color secondaryColor = Color(0XFF89C400);
   static Color grey = Color(0XFFD9D9D9);
 
+
   void snackBar (BuildContext context, String text, Color color, Color bgColor){
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: AutoSizeText(

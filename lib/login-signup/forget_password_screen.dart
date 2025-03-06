@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kharcha_book/login-signup/signup_screen.dart';
 import 'package:kharcha_book/services/auth_service.dart';
 import 'package:kharcha_book/ui_helper.dart';
+import 'package:kharcha_book/widgets/custom_texts.dart';
 import 'package:kharcha_book/widgets/my_texfields.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
@@ -12,6 +13,8 @@ class ForgetPasswordScreen extends StatefulWidget {
 }
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+
+  // text editing controller to handle text inside field
   TextEditingController emailController = TextEditingController();
 
   @override
@@ -22,9 +25,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         child: Column(
           children: [
             SizedBox(height: 70,),
-            Text("Enter Your Registered Email Id",
-              style: TextStyle(color: UiHelper.primaryColor, fontSize: 22, fontFamily: "Roboto-Semibold"),
-            ),
+            CustomTexts.h6(text: "Enter Your Registered Email Id", color: UiHelper.primaryColor),
             SizedBox(height: 20,),
             MyTextField(
               controller: emailController,
@@ -39,13 +40,16 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               width: 200,
               child: OutlinedButton(
                   onPressed: () async{
-                    final _auth = AuthService();
-                    if(emailController.text.isNotEmpty){
-                      bool isExist = await _auth.isUserExist(emailController.text.toString());
+                    final auth = AuthService();  // instance of auth class
+                    if(emailController.text.isNotEmpty){  // check if text field is not empty
+                      // check if user exists or not
+                      bool isExist = await auth.isUserExist(emailController.text.toString());
                       
                       if(isExist){
-                        await _auth.resetPassword(emailController.text.toString());
+                        // send password reset link if user exists
+                        await auth.resetPassword(emailController.text.toString());
 
+                        // show snack bar to notify user
                         UiHelper().snackBar(
                             context,
                             "Email Sent Successfully ... Check Your Mail",
@@ -53,6 +57,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                             UiHelper.secondaryColor
                         );
                       }else{
+                        // notify user if user does not exists
                         UiHelper().snackBar(
                             context,
                             "User does not exist!! Create an account first",

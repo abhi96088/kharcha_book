@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kharcha_book/widgets/custom_texts.dart';
 import '../services/auth_service.dart';
 import '../ui_helper.dart';
 import '../widgets/my_texfields.dart';
@@ -52,117 +53,115 @@ class _SignupScreenState extends State<SignupScreen> {
                             offset: Offset(0, 2),
                           )
                         ]),
-                    ///------------ Start of the form field -------------///
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 120,
-                        ),
-                        Text(
-                          "Signup",
-                          style: TextStyle(
-                              color: UiHelper.primaryColor,
-                              fontSize: 50,
-                              fontFamily: "Lato-Bold"),
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        /////////////// name field ///////////////
-                        SizedBox(
+                    ///-------------------- Start of the form field -------------------///
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 120,
+                          ),
+                          CustomTexts.h1(text: "Sign Up"),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          /////////////////////////// name field //////////////////////////
+                          SizedBox(
+                              width: screenWidth * 0.9,
+                              child: MyTextField(
+                                controller: nameController,
+                                label: "Enter Your Name",
+                                isPassword: false,
+                                prefix: Icon(Icons.person, color: UiHelper.primaryColor,),
+                              )
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          //////////////////////// email field ///////////////////////////
+                          SizedBox(
+                              width: screenWidth * 0.9,
+                              child: MyTextField(
+                                controller: emailController,
+                                label: "Enter Email Id",
+                                isPassword: false,
+                                prefix: Icon(Icons.email, color: UiHelper.primaryColor,),
+                              )
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          //////////////////////// password field //////////////////////////
+                          SizedBox(
+                              width: screenWidth * 0.9,
+                              child: MyTextField(
+                                controller: passController,
+                                label: "Enter Password",
+                                isPassword: true,
+                                prefix: Icon(Icons.lock, color: UiHelper.primaryColor,),
+                              )
+                          ),
+                          SizedBox(
+                            height: 35,
+                          ),
+
+                          /// --------------------- signup button code ---------------------------- ///
+                          SizedBox(
                             width: screenWidth * 0.9,
-                            child: MyTextField(
-                              controller: nameController,
-                              label: "Enter Your Name",
-                              isPassword: false,
-                              prefix: Icon(Icons.person, color: UiHelper.primaryColor,),
-                            )
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        /////////////// email field ///////////////
-                        SizedBox(
-                            width: screenWidth * 0.9,
-                            child: MyTextField(
-                              controller: emailController,
-                              label: "Enter Email Id",
-                              isPassword: false,
-                              prefix: Icon(Icons.email, color: UiHelper.primaryColor,),
-                            )
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        /////////////// password field /////////////////
-                        SizedBox(
-                            width: screenWidth * 0.9,
-                            child: MyTextField(
-                              controller: passController,
-                              label: "Enter Password",
-                              isPassword: true,
-                              prefix: Icon(Icons.lock, color: UiHelper.primaryColor,),
-                            )
-                        ),
-                        SizedBox(
-                          height: 35,
-                        ),
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () async{
 
-                        // ----------- signup button code ------------------//
-                        SizedBox(
-                          width: screenWidth * 0.9,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () async{
+                                final auth = AuthService(); // create instance of AuthServices
+                                // call the signup method, passing text from email and password field
+                                User? isCreated = await auth.signUp(emailController.text.toString(), passController.text.toString(), nameController.text.toString());
 
-                              final auth = AuthService(); // create instance of AuthServices
-                              // call the signup method, passing text from email and password field
-                              User? isCreated = await auth.signUp(emailController.text.toString(), passController.text.toString(), nameController.text.toString());
+                                if(isCreated == null) {
+                                  // show snack bar to inform user about failure
+                                  UiHelper().snackBar(context, "Something went wrong! Try again...", Colors.white, Colors.red);
+                                }else {
+                                  // show snack bar to inform user about successful account creation
+                                  UiHelper().snackBar(context, "Account Created Successfully !", Colors.white, UiHelper.secondaryColor);
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
 
-                              if(isCreated == null) {
-                                // show snack bar to inform user about failure
-                                UiHelper().snackBar(context, "Something went wrong! Try again...", Colors.white, Colors.red);
-                              }else {
-                                // show snack bar to inform user about successful account creation
-                                UiHelper().snackBar(context, "Account Created Successfully !", Colors.white, UiHelper.secondaryColor);
-                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
-
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: UiHelper.primaryColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)
-                                )
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.lock, color: Colors.white,size: 22,),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text("SignUp",
-                                    style: TextStyle(color: Colors.white, fontSize: 22, fontFamily: "Roboto-SemiBold")),
-                              ],
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: UiHelper.primaryColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)
+                                  )
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.lock, color: Colors.white,size: 22,),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text("SignUp",
+                                      style: TextStyle(color: Colors.white, fontSize: 22, fontFamily: "Roboto-SemiBold")),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 10,),
-                        Text("Already have an account ?", style: TextStyle(fontSize: 16),),
-                        TextButton(
-                            onPressed: (){
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
-                            },
-                            child: Text(
-                              "Login",
-                              style: TextStyle(fontSize: 22, color: UiHelper.primaryColor),))
-                      ],
+                          SizedBox(height: 10,),
+                          Text("Already have an account ?", style: TextStyle(fontSize: 16),),
+                          TextButton(
+                              onPressed: (){
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                              },
+                              child: Text(
+                                "Login",
+                                style: TextStyle(fontSize: 22, color: UiHelper.primaryColor),))
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
+
+              ///~~~~~~~~~~~~~~~~~~~~~ logo of application visible on top ~~~~~~~~~~~~~~~~~~~~~~~~~~///
               Positioned(
                 top: 100,
                 child: Container(

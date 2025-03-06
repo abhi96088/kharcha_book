@@ -6,7 +6,7 @@ class AuthService {
 
   // create an instance for firebaseAuth. provide access to firebase's authentication methods
   final FirebaseAuth auth = FirebaseAuth.instance;
-  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  final FirebaseFirestore fireStore = DatabaseServices.fireStore;
 
   /// -------------------->  function to handle signup <--------------------///
   Future<User?> signUp(String email, String password, String name) async{

@@ -7,7 +7,8 @@ import 'package:kharcha_book/ui_helper.dart';
 class ShowExpenseScreen extends StatefulWidget {
 
   final String uid;
-  const ShowExpenseScreen({super.key, required this.uid});
+  final String? date;
+  const ShowExpenseScreen({super.key, required this.uid, this.date});
 
   @override
   State<ShowExpenseScreen> createState() => _ShowExpenseScreenState();
@@ -29,7 +30,7 @@ class _ShowExpenseScreenState extends State<ShowExpenseScreen> {
   @override
   void initState() {
     super.initState();
-    dateController.text = _formatDate(initialDate);
+    dateController.text = widget.date ?? _formatDate(initialDate);
   }
 
   // function to show date picker
@@ -43,6 +44,7 @@ class _ShowExpenseScreenState extends State<ShowExpenseScreen> {
     if (picked != null) {
       setState(() {
         dateController.text = _formatDate(picked);
+        totalController.text = "0₹";
       });
     }
   }
@@ -137,8 +139,6 @@ class _ShowExpenseScreenState extends State<ShowExpenseScreen> {
                         }
 
                         var data = snapshot.data!.data() as Map<String, dynamic>;
-
-                        List<Map<String, dynamic>> expenseArray = [];
 
                         data.forEach((date, expenseList){
                           if(date.contains(dateController.text.toString()) && expenseList is List){
