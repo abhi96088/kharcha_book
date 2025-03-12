@@ -1,5 +1,7 @@
 # Kharchabook - Expense Tracker App
 
+![KharchaBook](assets/banner.png)
+
 Kharchabook is a smart expense tracking app built with **Flutter & Firebase**, designed to help users manage their daily and monthly expenses efficiently. The app provides an intuitive interface to track, categorize, and analyze expenses with ease.
 
 ## 🚀 Features
