@@ -1,16 +1,52 @@
-# kharcha_book
+# Kharchabook - Expense Tracker App
 
-A new Flutter project.
+![KharchaBook](assets/banner.png)
 
-## Getting Started
+Kharchabook is a smart expense tracking app built with **Flutter & Firebase**, designed to help users manage their daily and monthly expenses efficiently. The app provides an intuitive interface to track, categorize, and analyze expenses with ease.
 
-This project is a starting point for a Flutter application.
+## 🚀 Features
 
-A few resources to get you started if this is your first Flutter project:
+- **Secure Authentication**: Login & Sign-up with Firebase Authentication.
+- **Expense Tracking**: View total monthly expenses and daily breakdowns.
+- **Category-Wise Expense Analysis**: Visualize spending with categorized insights.
+- **Budget Management**: Set and monitor monthly spending limits.
+- **Data Sync & Backup**: Uses Firebase Firestore for real-time storage.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🛠️ Tech Stack
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Flutter** – Frontend UI framework
+- **Firebase Authentication** – User authentication
+- **Cloud Firestore** – Real-time database for storing expenses
+
+## 📸 Screenshots
+
+| Login | Sign Up | Home | Categories | Daily Breakdown | Add Expense |
+|-------|--------|------|------------|----------------|------------|
+| <img src="assets/login_screen.png" width="300" height="400"> | <img src="assets/signup_screen.png" width="300" height="400"> | <img src="assets/home_screen.png" width="300" height="400"> | <img src="assets/category_screen.png" width="300" height="400"> | <img src="assets/view_expense.png" width="300" height="400"> | <img src="assets/add_expense.png" width="300" height="400"> |
+
+## 📂 Installation & Setup
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/yourusername/Kharchabook.git
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd Kharchabook
+   ```
+3. Install dependencies:
+   ```sh
+   flutter pub get
+   ```
+4. Run the app:
+   ```sh
+   flutter run
+   ```
+
+## 💡 Contributing
+
+Contributions are welcome! Feel free to fork the repo, submit issues, or open a pull request.
+
+## 📜 License
+
+This project is licensed under the MIT License.
