@@ -72,53 +72,55 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: UiHelper.primaryColor,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomTexts.h6(text: "Total of this month : "),
-                        // stream builder get data dynamically from the database
-                        StreamBuilder(
-                            stream: database
-                                .collection('expenses')
-                                .doc(uid)
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              // check if there is any expense record in particular uid
-                              if (!snapshot.hasData || !snapshot.data!.exists) {
-                                return Text(
-                                  "0₹",
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 40,
-                                      fontFamily: "Lato-Bold",
-                                      fontWeight: FontWeight.bold),
-                                );
-                              }
-
-                              // store data as a Map
-                              var data =
-                                  snapshot.data!.data() as Map<String, dynamic>;
-
-                              int totalSum = 0;   // variable to add sum of amount
-
-                              // iterate over each record and check if record has matching date as current month
-                              data.forEach((date, expenseList) {
-                                if (date.contains(getMonth) &&
-                                    expenseList is List) {
-                                  for (var expense in expenseList) {
-                                    if (expense is Map<String, dynamic> &&
-                                        expense.containsKey('amt')) {
-                                      // add amount
-                                      totalSum +=
-                                          int.tryParse(expense['amt'].toString()) ??
-                                              0;
+                    child: FittedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomTexts.h6(text: "Total of this month : "),
+                          // stream builder get data dynamically from the database
+                          StreamBuilder(
+                              stream: database
+                                  .collection('expenses')
+                                  .doc(uid)
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                // check if there is any expense record in particular uid
+                                if (!snapshot.hasData || !snapshot.data!.exists) {
+                                  return Text(
+                                    "0₹",
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 40,
+                                        fontFamily: "Lato-Bold",
+                                        fontWeight: FontWeight.bold),
+                                  );
+                                }
+                      
+                                // store data as a Map
+                                var data =
+                                    snapshot.data!.data() as Map<String, dynamic>;
+                      
+                                int totalSum = 0;   // variable to add sum of amount
+                      
+                                // iterate over each record and check if record has matching date as current month
+                                data.forEach((date, expenseList) {
+                                  if (date.contains(getMonth) &&
+                                      expenseList is List) {
+                                    for (var expense in expenseList) {
+                                      if (expense is Map<String, dynamic> &&
+                                          expense.containsKey('amt')) {
+                                        // add amount
+                                        totalSum +=
+                                            int.tryParse(expense['amt'].toString()) ??
+                                                0;
+                                      }
                                     }
                                   }
-                                }
-                              });
-                              return CustomTexts.bigAmountText("$totalSum");
-                            })
-                      ],
+                                });
+                                return CustomTexts.bigAmountText("$totalSum");
+                              })
+                        ],
+                      ),
                     ),
                   ),
                 ),

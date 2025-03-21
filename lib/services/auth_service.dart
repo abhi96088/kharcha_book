@@ -70,9 +70,8 @@ class AuthService {
   /// -------------------->  function to handle forget password <--------------------///
   Future<String?> resetPassword(String email) async{
     try{
-      auth.sendPasswordResetEmail(email: email);
+      await auth.sendPasswordResetEmail(email: email);
         return "Email Sent Successfully";
-      return null;
     }catch(e){
       print(e.toString());
       return null;

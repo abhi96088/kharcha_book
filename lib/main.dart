@@ -2,12 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kharcha_book/login-signup/splash_screen.dart';
-import 'package:kharcha_book/screens/profile_screen.dart';
-import 'package:kharcha_book/screens/show_expense_screen.dart';
-import 'package:kharcha_book/screens/detailed_expense_view_screen.dart';
-import 'package:kharcha_book/screens/add_expense_screen.dart';
-import 'package:kharcha_book/screens/home_screen.dart';
-import 'package:kharcha_book/login-signup/login_screen.dart';
 
 
 void main() async{

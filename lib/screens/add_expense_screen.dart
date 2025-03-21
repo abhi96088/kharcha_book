@@ -21,7 +21,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   TextEditingController categoryController = TextEditingController();
 
   // final _fireStore = FirebaseFirestore.instance;
-  final List<String> _categoryList = ["Grocery", "Sports", "Stationary", "Rent", "Pary", "Others"];
+  final List<String> _categoryList = ["Food", "Grocery", "Gadgets", "Medicine", "Party", "Rent", "Sports", "Stationary", "Others"];
 
 
   @override
