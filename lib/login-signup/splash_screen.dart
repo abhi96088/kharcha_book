@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(Duration(seconds: 3), () {
-      /// '''''''' Check if user is logged in or not
+      /// '''''''' Check if user is logged in or not ''''''''' ///
       if(AuthService().auth.currentUser != null){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
       }else{
