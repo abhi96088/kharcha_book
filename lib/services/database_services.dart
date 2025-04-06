@@ -45,7 +45,7 @@ class DatabaseServices{
 
   }
 
-  /// -------------------->  function to create date wise expense details <--------------------///
+  /// -------------------->  function to create unit expense <--------------------///
   Future<void> createUnitExpense(String uid, String date, String amount, String detail, String category) async{
     await fireStore.collection('expenses').doc(uid).update({
       date: FieldValue.arrayUnion([
