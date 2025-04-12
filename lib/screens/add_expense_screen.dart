@@ -112,6 +112,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                             detailController.text.toString(),
                             categoryController.text.toString()
                         );
+                        amountController.clear();
+                        detailController.clear();
+                        categoryController.clear();
                         Navigator.pop(context);
                       }else{
                         UiHelper().snackBar(
