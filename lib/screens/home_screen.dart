@@ -27,6 +27,26 @@ class _HomeScreenState extends State<HomeScreen> {
   // get instance of database
   final database = DatabaseServices.fireStore;
 
+  // username
+  String username = "User";
+
+  @override
+  void initState() {
+    super.initState();
+    getUserName();
+  }
+
+  void getUserName() async{
+    Map<String, dynamic>? userData = await DatabaseServices().getUserData(uid);
+
+    if(userData != null){
+      username = userData['name'];
+    }
+    setState(() {
+
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(uid: uid,)));
             },
-            child: FutureBuilder<String>(future: DatabaseServices().getUserName(uid), builder: (context, snapshot){
-              if(snapshot.connectionState == ConnectionState.waiting){
-                return Text("Loading...");
-              }
-              return Text(snapshot.data ?? 'User');
-            }),
+            child: Text(username)
       ),),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),

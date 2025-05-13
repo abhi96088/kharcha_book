@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class DatabaseServices{
   static final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  static final FirebaseStorage storage = FirebaseStorage.instance;
 
 
   /// -------------------->  function to create user details <--------------------///
@@ -15,17 +19,15 @@ class DatabaseServices{
 
   }
 
-  /// -------------------->  function to get userName <--------------------///
-  Future<String> getUserName(String uid) async{
+  /// -------------------->  function to get userDetails <--------------------///
+  Future<Map<String, dynamic>?> getUserData(String uid) async{
     DocumentSnapshot userData = await fireStore.collection('users').doc(uid).get();
 
     if(userData.exists){
-      Map<String, dynamic> data = userData.data() as Map<String, dynamic>;
-
-      return data['name'];
+      return await userData.data() as Map<String, dynamic>;
     }
 
-    return "User";
+    return null;
   }
 
   /// -------------------->  function to create date wise expense details <--------------------///
@@ -58,4 +60,32 @@ class DatabaseServices{
     });
   }
 
+  /// -------------------->  function to update profile picture <--------------------///
+  Future<String> updateDp(File imageFile, String uid) async{
+    // Upload image to Firebase Storage
+    UploadTask uploadTask = storage
+        .ref('profile_pictures/$uid.jpg')
+        .putFile(imageFile);
+
+    TaskSnapshot snapshot = await uploadTask;
+
+    return await snapshot.ref.getDownloadURL();
+  }
+
+  /// -------------------->  function to update profile picture URL <--------------------///
+  Future<void> updateProfileUrl(String url, String uid) async{
+    await fireStore.collection('users').doc(uid).update({
+      'photoUrl' : url
+    });
+
+  }
+
+  /// -------------------->  function to update account details <--------------------///
+  Future<void> updateDetails(String uid, String name, String email) async{
+    await fireStore.collection('users').doc(uid).update({
+      'name': name,
+      'email': email
+    });
+
+  }
 }

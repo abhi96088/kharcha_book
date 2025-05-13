@@ -37,10 +37,12 @@ dependencies:
   firebase_core: ^3.10.1    #firebase services
   firebase_auth: ^5.4.1     #firebase authentication
   cloud_firestore: ^5.6.2   #firebase firestore database
+  firebase_storage: ^12.4.5 #firebase storage database
   auto_size_text: ^3.0.0    #auto adjustable texts
   intl: ^0.20.2             #format the time
   url_launcher: ^6.3.1
   android_intent_plus: ^5.3.0
+  image_picker: ^1.1.2
 
 
 dev_dependencies:
