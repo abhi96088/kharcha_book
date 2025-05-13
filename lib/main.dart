@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kharcha_book/login-signup/splash_screen.dart';
 import 'package:kharcha_book/screens/about_us_screen.dart';
+import 'package:kharcha_book/screens/edit_profile_screen.dart';
 
 
 void main() async{
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      home: EditProfileScreen(),
     );
   }
 }

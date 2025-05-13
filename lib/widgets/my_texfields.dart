@@ -18,6 +18,7 @@ class MyTextField extends StatefulWidget {
   final Color? focusedColor;
   final double? borderRadius;
   final TextEditingController controller;
+  final TextInputType? keyboardType;
 
   const MyTextField({
     super.key,
@@ -34,7 +35,7 @@ class MyTextField extends StatefulWidget {
     this.readOnly = false,
     this.suffix,
     this.suffixCallback,
-    this.onTap,
+    this.onTap, this.keyboardType,
   });
 
   @override
@@ -59,6 +60,7 @@ class _MyTextFieldState extends State<MyTextField> {
       readOnly: widget.readOnly!,
       controller: widget.controller,
       onTap: widget.onTap,
+      keyboardType: widget.keyboardType ?? null,
       decoration: InputDecoration(
           filled: widget.isFilled,
           fillColor: UiHelper.grey,
