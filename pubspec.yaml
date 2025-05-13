@@ -39,6 +39,8 @@ dependencies:
   cloud_firestore: ^5.6.2   #firebase firestore database
   auto_size_text: ^3.0.0    #auto adjustable texts
   intl: ^0.20.2             #format the time
+  url_launcher: ^6.3.1
+  android_intent_plus: ^5.3.0
 
 
 dev_dependencies:

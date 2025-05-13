@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kharcha_book/login-signup/login_screen.dart';
+import 'package:kharcha_book/screens/about_us_screen.dart';
 import 'package:kharcha_book/services/auth_service.dart';
+import 'package:kharcha_book/widgets/custom_texts.dart';
 import 'package:kharcha_book/widgets/my_texfields.dart';
 
 import '../services/database_services.dart';
@@ -50,7 +52,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Stack(
             alignment: Alignment.topCenter,
             children: [
-              /// ``````````````````````` login form card ````````````````````````///
               Column(
                 children: [
                   SizedBox(
@@ -71,7 +72,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             offset: Offset(0, 2),
                           )
                         ]),
-                    ///--------------------- Start of the form field ----------------------///
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -113,14 +113,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               prefix: Icon(Icons.email, color: UiHelper.primaryColor,),
                             )
                         ),
-                        SizedBox(
-                          height: 20,
+                        SizedBox(height: screenHeight * 0.05,),
+                        Divider(),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUsScreen()));
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                            child: Row(
+                              children: [
+                                CustomTexts.h6(text: "About Us", color: Colors.black),
+                                Spacer(),
+                                CustomTexts.h6(text: ">", color: Colors.black)
+                              ],
+                            ),
+                          ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
-
-                        ///::::::::::::::::::::::::::::::: login button code ::::::::::::::::::::::::::::::::::::::::::::::::///
+                        Divider(),
+                        SizedBox(height: screenHeight * 0.1,),
                         SizedBox(
                           width: screenWidth * 0.9,
                           height: 50,
@@ -153,7 +164,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
-              ///~~~~~~~~~~~~~~~~~~~~~ logo of application visible on top ~~~~~~~~~~~~~~~~~~~~~~~~~~///
+              ///~~~~~~~~~~~~~~~~~~~~~ profile picture ~~~~~~~~~~~~~~~~~~~~~~~~~~///
               Positioned(
                 top: 100,
                 child: Container(
