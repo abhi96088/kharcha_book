@@ -34,6 +34,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                 height: 60,
               ),
               MyTextField(
+                keyboardType: TextInputType.number,
                 label: "Enter Amount",
                 controller: amountController,
                 isPassword: false,
