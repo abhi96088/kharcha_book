@@ -29,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // username
   String username = "User";
+  String profilePicture = "";
 
   @override
   void initState() {
@@ -41,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if(userData != null){
       username = userData['name'];
+      profilePicture = userData['photoUrl'];
     }
     setState(() {
 
@@ -60,7 +62,12 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: Padding(
           padding: const EdgeInsets.only(left: 15),
           child: CircleAvatar(
-            child: Icon(Icons.person),
+            child: CircleAvatar(
+              backgroundImage: profilePicture.isNotEmpty ? NetworkImage(profilePicture) : null,
+              child: profilePicture.isEmpty ? Icon(
+                Icons.person,
+              ) : null,
+            ) ,
           ),
         ),
         title: InkWell(
