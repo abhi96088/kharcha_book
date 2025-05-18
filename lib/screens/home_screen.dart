@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.only(left: 15),
           child: CircleAvatar(
             child: CircleAvatar(
-              backgroundImage: profilePicture.isNotEmpty ? NetworkImage(profilePicture) : null,
+              backgroundImage: profilePicture.isNotEmpty ? NetworkImage(profilePicture) : null, // Set the profile picture if available
               child: profilePicture.isEmpty ? Icon(
                 Icons.person,
               ) : null,
