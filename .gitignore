@@ -43,3 +43,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/category.png
+/expense.png
+/home.png
+/profile.png
+/unit expense.png
