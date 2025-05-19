@@ -59,11 +59,11 @@ class _SignupScreenState extends State<SignupScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
-                            height: 120,
+                            height: screenHeight * 0.1,
                           ),
                           CustomTexts.h1(text: "Sign Up"),
                           SizedBox(
-                            height: 25,
+                            height: screenHeight * 0.025,
                           ),
                           /////////////////////////// name field //////////////////////////
                           SizedBox(
@@ -76,7 +76,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               )
                           ),
                           SizedBox(
-                            height: 20,
+                            height: screenHeight * 0.02,
                           ),
                           //////////////////////// email field ///////////////////////////
                           SizedBox(
@@ -89,7 +89,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               )
                           ),
                           SizedBox(
-                            height: 20,
+                            height: screenHeight * 0.02,
                           ),
                           //////////////////////// password field //////////////////////////
                           SizedBox(
@@ -102,7 +102,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               )
                           ),
                           SizedBox(
-                            height: 35,
+                            height: screenHeight * 0.03,
                           ),
 
                           /// --------------------- signup button code ---------------------------- ///
@@ -163,10 +163,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
               ///~~~~~~~~~~~~~~~~~~~~~ logo of application visible on top ~~~~~~~~~~~~~~~~~~~~~~~~~~///
               Positioned(
-                top: 100,
+                top: screenHeight * 0.1,
                 child: Container(
-                  height: 200,
-                  width: 200,
+                  height: screenHeight * 0.2,
+                  width: screenHeight * 0.2,
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,

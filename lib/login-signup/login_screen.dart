@@ -61,11 +61,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height: screenHeight * 0.15,
+                        height: screenHeight * 0.1,
                       ),
                       CustomTexts.h1(text: "Login"),
                       SizedBox(
-                        height: 25,
+                        height: screenHeight * 0.025,
                       ),
                       ///////////////////////// email field /////////////////////////
                       SizedBox(
@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         )
                       ),
                       SizedBox(
-                        height: 20,
+                        height: screenHeight * 0.02,
                       ),
                       ///////////////////////// password field ///////////////////////////
                       SizedBox(
@@ -90,9 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           prefix: Icon(Icons.lock, color: UiHelper.primaryColor,),
                         )
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
+
                       // ------------------ forget password text ------------------ //
                       SizedBox(
                         width: screenWidth * 0.9,
@@ -110,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: screenHeight * 0.02,
                       ),
                   
                       ///::::::::::::::::::::::::::::::: login button code ::::::::::::::::::::::::::::::::::::::::::::::::///
@@ -164,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(height: screenHeight * 0.015,),
                       Text("Don't have an account ?", style: TextStyle(fontSize: 16),),
                       TextButton(
                         onPressed: (){
@@ -183,8 +181,8 @@ class _LoginScreenState extends State<LoginScreen> {
           Positioned(
             top: screenHeight * 0.1,
             child: Container(
-              height: screenHeight * 0.25,
-              width: screenWidth * 0.5,
+              height: screenHeight * 0.2,
+              width: screenHeight * 0.2,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
