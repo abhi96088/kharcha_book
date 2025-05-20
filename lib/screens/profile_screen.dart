@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:kharcha_book/login-signup/login_screen.dart';
 import 'package:kharcha_book/screens/about_us_screen.dart';
 import 'package:kharcha_book/screens/edit_profile_screen.dart';
@@ -196,8 +197,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Positioned(
             top: 100,
             child: Container(
-                height: 200,
-                width: 200,
+              height: screenHeight * 0.2,
+              width: screenHeight * 0.2,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -212,12 +213,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       )
                     ]),
                 child: CircleAvatar(
-                  backgroundImage: profileUrl != null ? NetworkImage(profileUrl!) : null,
-                  child: profileUrl == null ? Icon(
-                    Icons.person,
-                    size: 150,
-                  ) : null,
-                ) ,
+                    child: profileUrl != null ? ClipOval(
+                      child: Image.network(
+                        profileUrl!,
+                        height: screenHeight * 0.2,
+                        width: screenHeight * 0.2,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return SpinKitFadingCircle(color: UiHelper.primaryColor, size: screenHeight * 0.15,);
+                        },
+                      ),
+                    ) : Icon(
+                      Icons.person,
+                    )
+                ),
             )
           )
         ],

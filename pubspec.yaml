@@ -43,6 +43,10 @@ dependencies:
   url_launcher: ^6.3.1
   android_intent_plus: ^5.3.0
   image_picker: ^1.1.2
+  cached_network_image: ^3.4.1
+  flutter_spinkit: ^5.2.1
+  share_plus: ^11.0.0
+  flutter_email_sender: ^7.0.0
 
 
 dev_dependencies:

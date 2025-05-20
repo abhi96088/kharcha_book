@@ -43,8 +43,11 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# i don't want to upload
 /category.png
 /expense.png
 /home.png
 /profile.png
 /unit expense.png
+/android/app/google-services.json

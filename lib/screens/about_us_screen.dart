@@ -2,28 +2,29 @@ import 'dart:io';
 
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:kharcha_book/ui_helper.dart';
 import 'package:kharcha_book/widgets/custom_texts.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutUsScreen extends StatelessWidget {
 
   void _launchEmail() async {
-    final Uri emailUri = Uri(
+    final Uri emailLaunchUri = Uri(
       scheme: 'mailto',
       path: 'pixelcrafters.apps@gmail.com',
-      queryParameters: {
-        'subject': 'KharchaBook Feedback',
-        'body': 'Hi Abhimanyu,',
-      },
+      query: Uri.encodeFull('subject=KharchaBook Feedback&body=Hi Abhimanyu,'),
     );
 
-    if (await canLaunchUrl(emailUri)) {
-      await launchUrl(emailUri);
+    if (await canLaunchUrl(emailLaunchUri)) {
+      await launchUrl(emailLaunchUri);
     } else {
-      throw 'Could not launch email client';
+      debugPrint('Could not launch email client');
+      // Optionally show a snackbar or dialog here
     }
   }
+
 
 
   @override
@@ -46,31 +47,22 @@ class AboutUsScreen extends StatelessWidget {
             CustomTexts.h1(text: "KharchaBook", size: 35),
             SizedBox(height: 10),
             Text(
-              'KharchaBook is a Flutter-based expense tracker app with Firebase authentication and real-time expense management.',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              'KharchaBook helps you take control of your spending by tracking your daily expenses and keeping your budget on track — all in one place.',
+              style: TextStyle(fontSize: 18, fontFamily: "Roboto-Semibold"),
               textAlign: TextAlign.center,
             ),
             Divider(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Developed by: ', style: TextStyle(fontSize: 16)),
+                Text('Made with ❤️ by ', style: TextStyle(fontSize: 16, fontFamily: "Roboto-Regular")),
                 Text(
                   "Abhi Manyu",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 18, fontFamily: "Roboto-Semibold"),
                 )
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Tech Stack:   '),
-                Text(
-                  'Flutter • Dart • Firebase',
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                )
-              ],
-            ),
+
             SizedBox(height: screenHeight * 0.2),
             SizedBox(
               width: screenWidth * 0.5,

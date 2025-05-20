@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:kharcha_book/screens/profile_screen.dart';
 import 'package:kharcha_book/screens/show_expense_screen.dart';
@@ -61,13 +62,26 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.only(left: 15),
-          child: CircleAvatar(
+          child: InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(uid: uid,)));
+            },
             child: CircleAvatar(
-              backgroundImage: profilePicture.isNotEmpty ? NetworkImage(profilePicture) : null, // Set the profile picture if available
-              child: profilePicture.isEmpty ? Icon(
+              child: profilePicture.isNotEmpty ? ClipOval(
+                child: Image.network(
+                  profilePicture,
+                  height: screenHeight * 0.05,
+                  width: screenHeight * 0.05,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return SpinKitFadingCircle(color: UiHelper.primaryColor, size: screenHeight * 0.04,);
+                  },
+                ),
+              ) : Icon(
                 Icons.person,
-              ) : null,
-            ) ,
+              )
+            ),
           ),
         ),
         title: InkWell(
