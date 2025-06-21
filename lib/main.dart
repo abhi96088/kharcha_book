@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kharcha_book/login-signup/splash_screen.dart';
 import 'package:kharcha_book/screens/about_us_screen.dart';
+import 'package:kharcha_book/screens/category_wise_view_screen.dart';
+import 'package:kharcha_book/screens/detailed_expense_view_screen.dart';
 import 'package:kharcha_book/screens/edit_profile_screen.dart';
 
 
@@ -23,13 +25,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'KharchaBook',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      home: CategoryWiseViewScreen(),
     );
   }
 }

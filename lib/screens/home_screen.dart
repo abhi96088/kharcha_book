@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final database = DatabaseServices.fireStore;
 
   // username
-  String username = "User";
+  String username = "Loading...";
   String profilePicture = "";
 
   @override
@@ -42,8 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Map<String, dynamic>? userData = await DatabaseServices().getUserData(uid);
 
     if(userData != null){
-      username = userData['name'];
-      profilePicture = userData['photoUrl'];
+      username = userData['name'] ?? "User";
+      profilePicture = userData['photoUrl'] ?? '';
     }
     setState(() {
 
@@ -257,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           CustomTexts.h6(text: "Total Expense: ", color: Colors.black, size: 25),
                                           Spacer(),
-                                          CustomTexts.h6(text: "$total₹", size: 30, color: Colors.red),
+                                          FittedBox(child: CustomTexts.h6(text: "$total₹", size: 30, color: Colors.red)),
                                           SizedBox(
                                             width: 15,
                                           )

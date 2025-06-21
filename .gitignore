@@ -45,9 +45,9 @@ app.*.map.json
 /android/app/release
 
 # i don't want to upload
-/category.png
-/expense.png
-/home.png
-/profile.png
-/unit expense.png
+/screenshots/category.png
+/screenshots/expense.png
+/screenshots/home.png
+/screenshots/profile.png
+/screenshots/unit expense.png
 /android/app/google-services.json
